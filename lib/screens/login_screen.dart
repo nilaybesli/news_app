@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/newsList.dart';
+import 'package:news_app/screens/home_screen.dart';
 import 'package:news_app/screens/signup_screen.dart';
+
+import '../resources/auth_methods.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -17,6 +21,18 @@ class _LoginScreenState extends State<LoginScreen> {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  void loginUser() async {
+    String res = await AuthMethods().loginUser(
+        email: _emailController.text, password: _passwordController.text);
+    if (res == "success") {
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) => HomeScreen(news: myNewsList),
+      ));
+    } else {
+      // showSnackBar(res, context);
+    }
   }
 
   @override
@@ -49,6 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             TextField(
               controller: _passwordController,
+              obscureText: true,
               decoration: const InputDecoration(
                 labelText: 'Password',
                 icon: Icon(Icons.lock),
@@ -61,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
               width: 250,
               height: 45,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: loginUser,
                 style: ElevatedButton.styleFrom(
                   backgroundColor:
                       Theme.of(context).primaryColor.withOpacity(0.3),
@@ -89,7 +106,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 InkWell(
                   onTap: () {
                     Navigator.of(context).push(
-                        MaterialPageRoute(builder: (ctx) =>   const SignUpScreen(),),);
+                      MaterialPageRoute(
+                        builder: (ctx) => const SignUpScreen(),
+                      ),
+                    );
                   },
                   child: Text(
                     "Register",

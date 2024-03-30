@@ -1,8 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:news_app/screens/login_screen.dart';
+import 'package:news_app/newsList.dart';
+import 'package:news_app/screens/home_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:news_app/screens/signup_screen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  Firebase.initializeApp(
+    options: const FirebaseOptions(
+      apiKey: "AIzaSyDyNz03DjBQg17Ty-xiuGcJSl94pt7TjvM",
+      appId: "1:500230385651:web:02137867332bc081f72c86",
+      messagingSenderId: "500230385651",
+      projectId: "news-app-5b8e1",
+      storageBucket: "news-app-5b8e1.appspot.com",
+    ),
+  );
+
   runApp(const MyApp());
 }
 
@@ -21,8 +36,8 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         debugShowCheckedModeBanner: false,
-        home: const LoginScreen()
-        //HomeScreen(news: myNewsList,),
-        );
+        home: const SignUpScreen(),
+      //HomeScreen(news: myNewsList,),
+    );
   }
 }

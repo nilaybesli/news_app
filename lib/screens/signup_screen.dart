@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/newsList.dart';
+import 'package:news_app/screens/home_screen.dart';
 import 'package:news_app/screens/login_screen.dart';
+
+import '../resources/auth_methods.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -18,6 +22,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  void signUpUser() async {
+    String res = await AuthMethods().signUpUser(
+      email: _emailController.text,
+      password: _passwordController.text,
+      username: _usernameController.text,
+    );
+
+    if (res != 'success') {
+      // showSnackBar(res, context);
+    } else {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => HomeScreen(news: myNewsList)),
+      );
+    }
   }
 
   @override
@@ -59,9 +79,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
             TextField(
               controller: _passwordController,
+              obscureText: true,
               decoration: const InputDecoration(
                 labelText: 'Password',
+
                 icon: Icon(Icons.lock),
+
               ),
             ),
             const SizedBox(
@@ -71,7 +94,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               width: 250,
               height: 45,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: signUpUser,
                 style: ElevatedButton.styleFrom(
                   backgroundColor:
                       Theme.of(context).primaryColor.withOpacity(0.3),
