@@ -11,7 +11,6 @@ class AnnouncementScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     Widget content = ListView.builder(
       itemCount: announce.length,
       itemBuilder: (ctx, index) => AnnounceItem(

@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/newsList.dart';
-import 'package:news_app/screens/home_screen.dart';
-import 'package:news_app/screens/login_screen.dart';
+import 'package:news_app/admin/add_news.dart';
 
 import '../resources/auth_methods.dart';
 
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key});
+class AdminLoginScreen extends StatefulWidget {
+  const AdminLoginScreen({super.key});
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  State<AdminLoginScreen> createState() => _AdminLoginScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _AdminLoginScreenState extends State<AdminLoginScreen> {
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   @override
@@ -24,20 +21,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
     super.dispose();
   }
 
-  void signUpUser() async {
-    String res = await AuthMethods().signUpUser(
-      email: _emailController.text,
-      password: _passwordController.text,
-      username: _usernameController.text,
-    );
-
-    if (res != 'success') {
-      // showSnackBar(res, context);
-    } else {
+  void loginAdmin() async {
+    String res = await AuthMethods().adminLogin(
+        email: _emailController.text, password: _passwordController.text);
+    if (res == "success") {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => HomeScreen(news: myNewsList)),
+        MaterialPageRoute(
+          builder: (context) => const AddNews(),
+        ),
       );
-    }
+    } else {}
   }
 
   @override
@@ -49,7 +42,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "Register",
+              "Admin Login",
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.w700,
@@ -69,15 +62,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
             ),
             TextField(
-              controller: _usernameController,
-              decoration: const InputDecoration(
-                labelText: 'Username',
-                icon: Icon(
-                  Icons.person,
-                ),
-              ),
-            ),
-            TextField(
               controller: _passwordController,
               obscureText: true,
               decoration: const InputDecoration(
@@ -92,13 +76,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
               width: 250,
               height: 45,
               child: ElevatedButton(
-                onPressed: signUpUser,
+                onPressed: loginAdmin,
                 style: ElevatedButton.styleFrom(
                   backgroundColor:
                       Theme.of(context).primaryColor.withOpacity(0.3),
                 ),
                 child: const Text(
-                  "Sign up",
+                  "Login",
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
@@ -107,34 +91,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 15,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  "Already have an account? ",
-                  style: TextStyle(fontSize: 20, color: Colors.grey),
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (ctx) => const LoginScreen(),
-                      ),
-                    );
-                  },
-                  child: Text(
-                    "Login",
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Theme.of(context).primaryColor.withOpacity(0.4),
-                    ),
-                  ),
-                ),
-              ],
-            )
           ],
         ),
       ),

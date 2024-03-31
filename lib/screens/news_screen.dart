@@ -2,56 +2,44 @@ import 'package:flutter/material.dart';
 import 'package:news_app/models/news.dart';
 import 'package:news_app/widgets/news_item.dart';
 
+import '../resources/firestore_methods.dart';
+
 class NewsScreen extends StatelessWidget {
-  const NewsScreen({super.key, required this.news, this.title});
+  NewsScreen({super.key, required this.news, this.title});
+
+  final FirestoreMethods _firestoreMethods = FirestoreMethods();
 
   final String? title;
   final List<News> news;
 
   @override
   Widget build(BuildContext context) {
-    Widget content = ListView.builder(
-      itemCount: news.length,
-      itemBuilder: (ctx, index) => NewsItem(
-        news: news[index],
-      ),
-    );
-
-    if (news.isEmpty) {
-      content = Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              "Uh oh ... Nothing here!",
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineLarge!
-                  .copyWith(color: Theme.of(context).colorScheme.onBackground),
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            Text(
-              "Try selecting different category",
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyLarge!
-                  .copyWith(color: Theme.of(context).colorScheme.onBackground),
-            ),
-          ],
-        ),
-      );
-    }
-
-    if (title == null) {
-      return content;
-    }
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title!),
-      ),
-      body: content,
+    return StreamBuilder<List<News>>(
+      stream: _firestoreMethods.getNewsFromFirestore(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        }
+        final newsList = snapshot.data ?? [];
+        return newsList.isEmpty
+            ? Center(
+                child: Text(
+                  "Uh oh ... Nothing here!",
+                  style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                        color: Theme.of(context).colorScheme.onBackground,
+                      ),
+                ),
+              )
+            : ListView.builder(
+                itemCount: newsList.length,
+                itemBuilder: (context, index) {
+                  return NewsItem(news: newsList[index]);
+                },
+              );
+      },
     );
   }
 }

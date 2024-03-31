@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:news_app/newsList.dart';
-import 'package:news_app/screens/home_screen.dart';
+import 'package:news_app/admin/admin_login.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:news_app/screens/signup_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,16 +25,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'News & Announcements',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color.fromARGB(244, 208, 174, 1),
-          ),
-          textTheme: GoogleFonts.latoTextTheme(),
-          useMaterial3: true,
+      title: 'News & Announcements',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color.fromARGB(244, 208, 174, 1),
         ),
-        debugShowCheckedModeBanner: false,
-        home: const SignUpScreen(),
+        textTheme: GoogleFonts.latoTextTheme(),
+        useMaterial3: true,
+      ),
+      debugShowCheckedModeBanner: false,
+      home: const AdminLoginScreen(),
       //HomeScreen(news: myNewsList,),
     );
   }

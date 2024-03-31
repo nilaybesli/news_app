@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<String> signUpUser({
     required String email,
@@ -39,7 +41,27 @@ class AuthMethods {
     return res;
   }
 
-  Future<void> signOut() async {
-    await _auth.signOut();
+  Future<bool> isAdmin(String uid) async {
+    DocumentSnapshot doc = await _firestore.collection('admin').doc(uid).get();
+    return doc.exists;
+  }
+
+  Future<String> adminLogin(
+      {required String email, required String password}) async {
+    String res = "Some error occurred";
+    try {
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+
+      if (userCredential.user != null &&
+          await isAdmin(userCredential.user!.uid)) {
+        res = "success";
+      } else {
+        res = "Not an admin or invalid credentials";
+      }
+    } catch (err) {
+      res = err.toString();
+    }
+    return res;
   }
 }
