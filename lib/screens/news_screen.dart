@@ -10,7 +10,7 @@ class NewsScreen extends StatelessWidget {
   final FirestoreMethods _firestoreMethods = FirestoreMethods();
 
   final String? title;
-  final List<News> news;
+  final Stream<List<News>> news;
 
   @override
   Widget build(BuildContext context) {

@@ -3,12 +3,12 @@ import 'package:news_app/models/news.dart';
 import 'package:news_app/newsList.dart';
 import 'package:news_app/screens/news_screen.dart';
 
+import '../resources/firestore_methods.dart';
 import 'announcement_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  final List<News> news;
-
   const HomeScreen({Key? key, required this.news}) : super(key: key);
+  final Stream<List<News>> news;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -28,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
     var activePageTitle = _selectedPageIndex == 0 ? 'News' : 'Announcements';
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Theme.of(context).primaryColor.withOpacity(0.4),
         title: Text(
           activePageTitle,
@@ -38,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       body: _selectedPageIndex == 0
-          ? NewsScreen(news: myNewsList)
+          ? NewsScreen(news: FirestoreMethods().getNewsFromFirestore())
           : AnnouncementScreen(
               announce: myAnnounceList,
             ),

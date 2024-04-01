@@ -4,6 +4,7 @@ import 'package:news_app/screens/home_screen.dart';
 import 'package:news_app/screens/login_screen.dart';
 
 import '../resources/auth_methods.dart';
+import '../resources/firestore_methods.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -35,7 +36,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       // showSnackBar(res, context);
     } else {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => HomeScreen(news: myNewsList)),
+        MaterialPageRoute(builder: (context) => HomeScreen(news: FirestoreMethods().getNewsFromFirestore())),
       );
     }
   }

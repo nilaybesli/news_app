@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/admin/add_news.dart';
+import 'package:news_app/admin/news_admin_screen.dart';
 
 import '../resources/auth_methods.dart';
 
@@ -27,7 +27,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
     if (res == "success") {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => const AddNews(),
+          builder: (context) => const NewsAdminScreen(),
         ),
       );
     } else {}
