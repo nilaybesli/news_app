@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../models/announcement.dart';
+import '../providers/announce_provider.dart';
 import '../widgets/announce_item.dart';
-import '../resources/firestore_methods.dart';
 
 class AnnouncementScreen extends StatelessWidget {
-  AnnouncementScreen({
+  const AnnouncementScreen({
     Key? key,
     required this.announcement,
   }) : super(key: key);
 
-  final FirestoreMethods _firestoreMethods = FirestoreMethods();
-  final Stream<List<Announcement>> announcement;
+   final Stream<List<Announcement>> announcement;
 
   @override
   Widget build(BuildContext context) {
+    final announceProvider = Provider.of<AnnounceProvider>(context);
+
     return StreamBuilder<List<Announcement>>(
-      stream: _firestoreMethods.getAnnounceFromFirestore(),
+      stream: announceProvider.announceStream,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/announce_provider.dart';
 import '../resources/firestore_methods.dart';
 import '../screens/announcement_screen.dart';
 import 'announce_methods.dart';
@@ -38,6 +40,8 @@ class _AnnounceAdminScreen extends State<AnnounceAdminScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final announceProvider = Provider.of<AnnounceProvider>(context);
+
     return Scaffold(
         floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
@@ -49,7 +53,7 @@ class _AnnounceAdminScreen extends State<AnnounceAdminScreen> {
           title: const Text('Announcement Management'),
         ),
         body: AnnouncementScreen(
-          announcement: FirestoreMethods().getAnnounceFromFirestore(),
+          announcement: announceProvider.announceStream,
         ));
   }
 

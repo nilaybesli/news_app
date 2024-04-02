@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:news_app/admin/news_methods.dart';
 import 'package:news_app/models/news.dart';
 import 'package:transparent_image/transparent_image.dart';
+import 'package:provider/provider.dart';
+import 'package:news_app/providers/news_provider.dart';
 
 class NewsDetails extends StatefulWidget {
   final News news;
@@ -25,7 +27,7 @@ class _NewsDetailsState extends State<NewsDetails> {
   void editNews(
       BuildContext context, String newTitle, String newContent) async {
     try {
-      await NewsMethods().updateNews(widget.news.id, newTitle, newContent);
+      await Provider.of<NewsProvider>(context, listen: false).updateNews(widget.news.id, newTitle, newContent);
       Navigator.of(context).pop();
       Navigator.of(context).pop();
     } catch (error) {
@@ -36,9 +38,9 @@ class _NewsDetailsState extends State<NewsDetails> {
   @override
   Widget build(BuildContext context) {
     TextEditingController titleController =
-        TextEditingController(text: widget.news.title);
+    TextEditingController(text: widget.news.title);
     TextEditingController contentController =
-        TextEditingController(text: widget.news.content);
+    TextEditingController(text: widget.news.content);
 
     return Scaffold(
       appBar: AppBar(
@@ -59,12 +61,12 @@ class _NewsDetailsState extends State<NewsDetails> {
                           TextField(
                             controller: titleController,
                             decoration:
-                                const InputDecoration(labelText: 'Title'),
+                            const InputDecoration(labelText: 'Title'),
                           ),
                           TextField(
                             controller: contentController,
                             decoration:
-                                const InputDecoration(labelText: 'Content'),
+                            const InputDecoration(labelText: 'Content'),
                             maxLines: 5,
                           ),
                         ],

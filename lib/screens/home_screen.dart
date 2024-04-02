@@ -3,6 +3,8 @@ import 'package:news_app/models/news.dart';
 import 'package:news_app/screens/news_screen.dart';
 import '../resources/firestore_methods.dart';
 import 'announcement_screen.dart';
+import 'package:provider/provider.dart';
+import '../providers/news_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key, required this.news}) : super(key: key);
@@ -23,6 +25,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final newsProvider = Provider.of<NewsProvider>(context);
+
     var activePageTitle = _selectedPageIndex == 0 ? 'News' : 'Announcements';
     return Scaffold(
       appBar: AppBar(
@@ -37,10 +41,11 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       body: _selectedPageIndex == 0
-          ? NewsScreen(news: FirestoreMethods().getNewsFromFirestore())
+          ? NewsScreen(news: newsProvider.newsStream)
           : AnnouncementScreen(
               announcement: FirestoreMethods().getAnnounceFromFirestore(),
             ),
+
       bottomNavigationBar: BottomNavigationBar(
         onTap: _selectPage,
         currentIndex: _selectedPageIndex,

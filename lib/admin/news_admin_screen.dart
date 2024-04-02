@@ -4,6 +4,9 @@ import 'package:news_app/admin/news_methods.dart';
 import 'package:news_app/resources/firestore_methods.dart';
 import 'package:news_app/screens/news_screen.dart';
 import 'package:news_app/widgets/image_input.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/news_provider.dart';
 
 class NewsAdminScreen extends StatefulWidget {
   const NewsAdminScreen({
@@ -52,6 +55,8 @@ class _NewsAdminScreenState extends State<NewsAdminScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final newsProvider = Provider.of<NewsProvider>(context);
+
     return Scaffold(
         floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
@@ -63,7 +68,7 @@ class _NewsAdminScreenState extends State<NewsAdminScreen> {
           title: const Text('News Management'),
         ),
         body: NewsScreen(
-          news: FirestoreMethods().getNewsFromFirestore(),
+          news: newsProvider.newsStream,
         ));
   }
 

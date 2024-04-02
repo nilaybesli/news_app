@@ -4,9 +4,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:news_app/admin/admin_login.dart';
 import 'package:news_app/admin/announce_admin_screen.dart';
 import 'package:news_app/admin/news_admin_screen.dart';
+import 'package:news_app/providers/announce_provider.dart';
+import 'package:news_app/providers/news_provider.dart';
 import 'package:news_app/resources/firestore_methods.dart';
 import 'package:news_app/screens/home_screen.dart';
 import 'package:news_app/screens/news_screen.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,22 +28,27 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'News & Announcements',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color.fromARGB(244, 208, 174, 1),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => NewsProvider()),
+        ChangeNotifierProvider(create: (_) => AnnounceProvider()),
+      ],
+      child: MaterialApp(
+        title: 'News & Announcements',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color.fromARGB(244, 208, 174, 1),
+          ),
+          textTheme: GoogleFonts.latoTextTheme(),
+          useMaterial3: true,
         ),
-        textTheme: GoogleFonts.latoTextTheme(),
-        useMaterial3: true,
+        debugShowCheckedModeBanner: false,
+        home: const AnnounceAdminScreen(),
       ),
-      debugShowCheckedModeBanner: false,
-      home: AnnounceAdminScreen(),
-     // HomeScreen(news: FirestoreMethods().getNewsFromFirestore(),),
     );
   }
 }
