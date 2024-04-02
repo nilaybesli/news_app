@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:uuid/uuid.dart';
@@ -7,7 +6,7 @@ import 'package:uuid/uuid.dart';
 class NewsMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
-  final Uuid _uuid = Uuid();
+  final Uuid _uuid = const Uuid();
 
   Future<void> addNews(
       String title, String content, String category, String imageURL) async {
@@ -30,16 +29,14 @@ class NewsMethods {
   Future<String> uploadImage(Uint8List imageFile) async {
     try {
       String imageName = DateTime.now().millisecondsSinceEpoch.toString();
-
       final ref = _storage.ref().child('news_images/$imageName.jpg');
 
       UploadTask uploadTask = ref.putData(imageFile);
-
       TaskSnapshot snapshot = await uploadTask;
 
       String imageURL = await snapshot.ref.getDownloadURL();
-
       return imageURL;
+
     } catch (error) {
       print('Error: $error');
       rethrow;

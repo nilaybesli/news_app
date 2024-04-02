@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/models/news.dart';
 import 'package:news_app/widgets/news_item.dart';
-
 import '../resources/firestore_methods.dart';
 
 class NewsScreen extends StatelessWidget {
-  NewsScreen({super.key, required this.news, this.title});
+  NewsScreen({super.key, required this.news});
 
   final FirestoreMethods _firestoreMethods = FirestoreMethods();
 
-  final String? title;
   final Stream<List<News>> news;
 
   @override
@@ -27,7 +25,7 @@ class NewsScreen extends StatelessWidget {
         return newsList.isEmpty
             ? Center(
                 child: Text(
-                  "Uh oh ... Nothing here!",
+                  " Nothing here!",
                   style: Theme.of(context).textTheme.headlineLarge!.copyWith(
                         color: Theme.of(context).colorScheme.onBackground,
                       ),
