@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/models/announcement.dart';
-import 'package:transparent_image/transparent_image.dart';
+
+import 'announcement_detail.dart';
 
 class AnnounceItem extends StatelessWidget {
-  const AnnounceItem({super.key, required this.announcement});
+  const AnnounceItem({Key? key, required this.announcement}) : super(key: key);
 
   final Announcement announcement;
 
@@ -15,49 +16,44 @@ class AnnounceItem extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       elevation: 2,
       child: InkWell(
-        onTap: () {},
-        child: Stack(
-          children: [
-            Hero(
-              tag: announcement.id,
-              child: FadeInImage(
-                placeholder: MemoryImage(kTransparentImage),
-                image: NetworkImage(announcement.imageUrl),
-                fit: BoxFit.cover,
-                height: 200,
-                width: double.infinity,
-              ),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  AnnouncementDetailScreen(announcement: announcement),
             ),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: Container(
-                color: Colors.black54,
-                padding:
-                const EdgeInsets.symmetric(vertical: 5, horizontal: 44),
-                child: Column(
-                  children: [
-                    Text(
-                      announcement.title,
-                      maxLines: 2,
-                      textAlign: TextAlign.center,
-                      softWrap: true,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                  ],
+          );
+        },
+        child: Container(
+          color: Colors.black54,
+          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 44),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                announcement.title,
+                maxLines: 2,
+                textAlign: TextAlign.center,
+                softWrap: true,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
                 ),
               ),
-            ),
-          ],
+              const SizedBox(
+                height: 12,
+              ),
+              Text(
+                announcement.content.substring(0, 50),
+                style: const TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
