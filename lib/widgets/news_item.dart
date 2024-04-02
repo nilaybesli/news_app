@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/models/news.dart';
+import 'package:news_app/widgets/news_details.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class NewsItem extends StatelessWidget {
-  const NewsItem({super.key, required this.news});
+  const NewsItem({Key? key, required this.news}) : super(key: key);
 
   final News news;
 
@@ -11,11 +12,15 @@ class NewsItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       margin: const EdgeInsets.all(8),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8),),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
       clipBehavior: Clip.hardEdge,
       elevation: 2,
       child: InkWell(
-        onTap: () {},
+        onTap: () => Navigator.of(context).push(
+          MaterialPageRoute(builder: (ctx) => NewsDetails(news: news)),
+        ),
         child: Stack(
           children: [
             Hero(
@@ -34,8 +39,7 @@ class NewsItem extends StatelessWidget {
               right: 0,
               child: Container(
                 color: Colors.black54,
-                padding:
-                    const EdgeInsets.symmetric(vertical: 5, horizontal: 44),
+                padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 44),
                 child: Column(
                   children: [
                     Text(

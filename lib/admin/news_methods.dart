@@ -7,13 +7,15 @@ class NewsMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
 
-  Future<void> addNews(String title, String content, File imageFile) async {
+  Future<void> addNews(
+      String title, String content, String category, File imageFile) async {
     try {
       String imageURL = await _uploadImage(imageFile);
 
       await _firestore.collection('news').add({
         'title': title,
-         'content': content,
+        'category': category,
+        'content': content,
         'imageURL': imageURL,
       });
     } catch (error) {
@@ -24,15 +26,35 @@ class NewsMethods {
 
   Future<String> _uploadImage(File imageFile) async {
     try {
-       String imageName = DateTime.now().millisecondsSinceEpoch.toString();
+      String imageName = DateTime.now().millisecondsSinceEpoch.toString();
       final ref = _storage.ref().child('news_images/$imageName.jpg');
-      final uploadTask = ref.putFile(imageFile);
-      final snapshot = await uploadTask;
-      final imageURL = await snapshot.ref.getDownloadURL();
+      UploadTask uploadTask = ref.putFile(imageFile);
+      TaskSnapshot snapshot = await uploadTask.whenComplete(() => null);
+      String imageURL = await snapshot.ref.getDownloadURL();
       return imageURL;
     } catch (error) {
       print('Error uploading image: $error');
       throw error;
     }
   }
+  Future<void> deleteNews(String newsId) async {
+    try {
+      await _firestore.collection('news').doc(newsId).delete();
+    } catch (error) {
+      print('Error deleting news: $error');
+      throw error;
+    }
+  }
+
+  Future<void> updateNews(String newsId, String newTitle, String newContent) async {
+    try {
+      await _firestore.collection('news').doc(newsId).update({
+        'title': newTitle,
+        'content': newContent,
+      });
+    } catch (e) {
+      print("Error updating news: $e");
+     }
+  }
 }
+

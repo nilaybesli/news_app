@@ -1,10 +1,16 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:news_app/admin/news_methods.dart';
+import 'package:news_app/resources/firestore_methods.dart';
+import 'package:news_app/screens/news_screen.dart';
 import 'package:news_app/widgets/image_input.dart';
 
+import '../models/news.dart';
+
 class NewsAdminScreen extends StatefulWidget {
-  const NewsAdminScreen({Key? key}) : super(key: key);
+  const NewsAdminScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _NewsAdminScreenState createState() => _NewsAdminScreenState();
@@ -13,10 +19,12 @@ class NewsAdminScreen extends StatefulWidget {
 class _NewsAdminScreenState extends State<NewsAdminScreen> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _contentController = TextEditingController();
+  final TextEditingController _categoryController = TextEditingController();
   File? _selectedImage;
 
   void _addNews() {
     if (_titleController.text.isEmpty ||
+        _categoryController.text.isEmpty ||
         _contentController.text.isEmpty ||
         _selectedImage == null) {
       return;
@@ -24,10 +32,12 @@ class _NewsAdminScreenState extends State<NewsAdminScreen> {
     NewsMethods().addNews(
       _titleController.text,
       _contentController.text,
+      _categoryController.text,
       _selectedImage!,
     );
     _titleController.clear();
     _contentController.clear();
+    _categoryController.clear();
     setState(() {
       _selectedImage = null;
     });
@@ -42,55 +52,29 @@ class _NewsAdminScreenState extends State<NewsAdminScreen> {
   void dispose() {
     _titleController.dispose();
     _contentController.dispose();
+    _categoryController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
+        onPressed: () {
+          addShowModalBottomSheet(context);
+        },
+      ),
       appBar: AppBar(
         title: const Text('News Management'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                addShowModalBottomSheet(context);
-              },
-              child: const Text(
-                'Add News',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
-              ),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            ElevatedButton(
-              onPressed: _updateNews,
-              child: const Text(
-                'Update News',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
-              ),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            ElevatedButton(
-              onPressed: _deleteNews,
-              child: const Text(
-                'Delete News',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
-              ),
-            ),
-          ],
-        ),
-      ),
+      body: NewsScreen(news: FirestoreMethods().getNewsFromFirestore(),)
+
+
     );
   }
+
+
 
   Future<dynamic> addShowModalBottomSheet(BuildContext context) {
     return showModalBottomSheet(
@@ -121,6 +105,10 @@ class _NewsAdminScreenState extends State<NewsAdminScreen> {
                   decoration: const InputDecoration(labelText: 'Title'),
                 ),
                 const SizedBox(height: 16),
+                TextField(
+                  controller: _categoryController,
+                  decoration: const InputDecoration(labelText: 'Category'),
+                ),
                 TextField(
                   controller: _contentController,
                   decoration: const InputDecoration(labelText: 'Content'),
