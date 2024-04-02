@@ -11,12 +11,12 @@ class NewsDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    void _deleteNews() {
+    void deleteNews() {
       NewsMethods().deleteNews(news.id);
       Navigator.of(context).pop();
     }
 
-    void _editNews() {
+    void editNews() {
 
       NewsMethods().updateNews(news.id, news.title, news.content);
     }
@@ -27,11 +27,11 @@ class NewsDetails extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.edit), // Add edit icon
-            onPressed: _editNews, // Call edit function
+            onPressed: editNews, // Call edit function
           ),
           IconButton(
             icon: const Icon(Icons.delete),
-            onPressed: _deleteNews,
+            onPressed: deleteNews,
           ),
         ],
       ),

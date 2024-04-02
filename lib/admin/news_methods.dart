@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -8,10 +8,8 @@ class NewsMethods {
   final FirebaseStorage _storage = FirebaseStorage.instance;
 
   Future<void> addNews(
-      String title, String content, String category, File imageFile) async {
+      String title, String content, String category, String imageURL) async {
     try {
-      String imageURL = await _uploadImage(imageFile);
-
       await _firestore.collection('news').add({
         'title': title,
         'category': category,
@@ -20,33 +18,40 @@ class NewsMethods {
       });
     } catch (error) {
       print('Error adding news: $error');
-      throw error;
+      rethrow;
     }
   }
 
-  Future<String> _uploadImage(File imageFile) async {
+  Future<String> uploadImage(Uint8List imageFile) async {
     try {
       String imageName = DateTime.now().millisecondsSinceEpoch.toString();
+
       final ref = _storage.ref().child('news_images/$imageName.jpg');
-      UploadTask uploadTask = ref.putFile(imageFile);
-      TaskSnapshot snapshot = await uploadTask.whenComplete(() => null);
+
+      UploadTask uploadTask = ref.putData(imageFile);
+
+      TaskSnapshot snapshot = await uploadTask;
+
       String imageURL = await snapshot.ref.getDownloadURL();
+
       return imageURL;
     } catch (error) {
-      print('Error uploading image: $error');
-      throw error;
+      print('Error: $error');
+      rethrow;
     }
   }
+
   Future<void> deleteNews(String newsId) async {
     try {
       await _firestore.collection('news').doc(newsId).delete();
     } catch (error) {
       print('Error deleting news: $error');
-      throw error;
+      rethrow;
     }
   }
 
-  Future<void> updateNews(String newsId, String newTitle, String newContent) async {
+  Future<void> updateNews(
+      String newsId, String newTitle, String newContent) async {
     try {
       await _firestore.collection('news').doc(newsId).update({
         'title': newTitle,
@@ -54,7 +59,6 @@ class NewsMethods {
       });
     } catch (e) {
       print("Error updating news: $e");
-     }
+    }
   }
 }
-

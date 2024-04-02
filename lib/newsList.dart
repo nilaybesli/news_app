@@ -3,13 +3,13 @@ import 'package:news_app/models/announcement.dart';
 
 
 List<Announcement> myAnnounceList = [
-  Announcement(
+  const Announcement(
     id: '1',
     title: 'Duyuru 1',
      content:
         'https://play-lh.googleusercontent.com/yCiacUZjZ7vJ9fPvRr7IOHsGtW5_DvZKk4ajxJcu6l5zhrZX8U6BstLovR4kvDFEburM',
   ),
-  Announcement(
+  const Announcement(
     id: '2',
     title: 'Duyuru 2',
      content:

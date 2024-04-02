@@ -1,11 +1,10 @@
-import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:news_app/admin/news_methods.dart';
 import 'package:news_app/resources/firestore_methods.dart';
 import 'package:news_app/screens/news_screen.dart';
 import 'package:news_app/widgets/image_input.dart';
 
-import '../models/news.dart';
 
 class NewsAdminScreen extends StatefulWidget {
   const NewsAdminScreen({
@@ -20,26 +19,28 @@ class _NewsAdminScreenState extends State<NewsAdminScreen> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _contentController = TextEditingController();
   final TextEditingController _categoryController = TextEditingController();
-  File? _selectedImage;
+  String? _imageURL;
 
   void _addNews() {
     if (_titleController.text.isEmpty ||
         _categoryController.text.isEmpty ||
         _contentController.text.isEmpty ||
-        _selectedImage == null) {
+        _imageURL == null) {
       return;
     }
     NewsMethods().addNews(
       _titleController.text,
       _contentController.text,
       _categoryController.text,
-      _selectedImage!,
+      _imageURL!, // _selectedImage yerine _imageURL'yi geçirin
     );
     _titleController.clear();
     _contentController.clear();
     _categoryController.clear();
     setState(() {
-      _selectedImage = null;
+      // _selectedImage = null;
+      _imageURL =
+          null; // _selectedImage yerine _imageURL'yi null olarak ayarlayın
     });
     Navigator.of(context).pop();
   }
@@ -59,22 +60,19 @@ class _NewsAdminScreenState extends State<NewsAdminScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () {
-          addShowModalBottomSheet(context);
-        },
-      ),
-      appBar: AppBar(
-        title: const Text('News Management'),
-      ),
-      body: NewsScreen(news: FirestoreMethods().getNewsFromFirestore(),)
-
-
-    );
+        floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.add),
+          onPressed: () {
+            addShowModalBottomSheet(context);
+          },
+        ),
+        appBar: AppBar(
+          title: const Text('News Management'),
+        ),
+        body: NewsScreen(
+          news: FirestoreMethods().getNewsFromFirestore(),
+        ));
   }
-
-
 
   Future<dynamic> addShowModalBottomSheet(BuildContext context) {
     return showModalBottomSheet(
@@ -91,9 +89,13 @@ class _NewsAdminScreenState extends State<NewsAdminScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 ImageInput(
-                  onSelectImage: (imageFile) {
+                  onSelectImage: (imageFile) async {
+                    final bytes = await imageFile.readAsBytes();
+                    final imageURL = await NewsMethods()
+                        .uploadImage(Uint8List.fromList(bytes));
+
                     setState(() {
-                      _selectedImage = imageFile;
+                      _imageURL = imageURL;
                     });
                   },
                 ),

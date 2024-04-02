@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:news_app/admin/admin_login.dart';
 import 'package:news_app/admin/news_admin_screen.dart';
-import 'package:news_app/resources/firestore_methods.dart';
-import 'package:news_app/screens/home_screen.dart';
-import 'package:news_app/screens/login_screen.dart';
-import 'package:news_app/screens/news_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,8 +34,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home:   HomeScreen(news: FirestoreMethods().getNewsFromFirestore()),
-      //HomeScreen(news: myNewsList,),
+      home: const NewsAdminScreen(),
+      //HomeScreen(news: FirestoreMethods().getNewsFromFirestore()),
     );
   }
 }
