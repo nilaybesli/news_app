@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:news_app/models/announcement.dart';
 
 import '../models/news.dart';
 
@@ -22,6 +23,19 @@ class FirestoreMethods {
       });
     } catch (e) {
       print('Error getting news from Firestore: $e');
+      return const Stream.empty();
+    }
+  }
+
+  Stream<List<Announcement>> getAnnounceFromFirestore() {
+    try {
+      return _firestore.collection('announcement').snapshots().map((snapshot) {
+        return snapshot.docs.map((doc) {
+          return Announcement.fromMap(doc.data());
+        }).toList();
+      });
+    } catch (e) {
+      print('Error getting announcements from Firestore: $e');
       return const Stream.empty();
     }
   }

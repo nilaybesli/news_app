@@ -1,58 +1,45 @@
 import 'package:flutter/material.dart';
-
 import '../models/announcement.dart';
 import '../widgets/announce_item.dart';
+import '../resources/firestore_methods.dart';
 
 class AnnouncementScreen extends StatelessWidget {
-  const AnnouncementScreen({super.key, required this.announce, this.title});
+  AnnouncementScreen({
+    Key? key,
+    required this.announcement,
+  }) : super(key: key);
 
-  final String? title;
-  final List<Announcement> announce;
+  final FirestoreMethods _firestoreMethods = FirestoreMethods();
+  final Stream<List<Announcement>> announcement;
 
   @override
   Widget build(BuildContext context) {
-    Widget content = ListView.builder(
-      itemCount: announce.length,
-      itemBuilder: (ctx, index) => AnnounceItem(
-        announcement: announce[index],
-      ),
-    );
-
-    if (announce.isEmpty) {
-      content = Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              "Uh oh ... Nothing here!",
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineLarge!
-                  .copyWith(color: Theme.of(context).colorScheme.onBackground),
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            Text(
-              "Try selecting different category",
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyLarge!
-                  .copyWith(color: Theme.of(context).colorScheme.onBackground),
-            ),
-          ],
-        ),
-      );
-    }
-
-    if (title == null) {
-      return content;
-    }
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title!),
-      ),
-      body: content,
+    return StreamBuilder<List<Announcement>>(
+      stream: _firestoreMethods.getAnnounceFromFirestore(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        }
+        final announcementList = snapshot.data ?? [];
+        return announcementList.isEmpty
+            ? Center(
+                child: Text(
+                  "Nothing here!",
+                  style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                        color: Theme.of(context).colorScheme.onBackground,
+                      ),
+                ),
+              )
+            : ListView.builder(
+                itemCount: announcementList.length,
+                itemBuilder: (context, index) {
+                  return AnnounceItem(announcement: announcementList[index]);
+                },
+              );
+      },
     );
   }
 }

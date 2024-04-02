@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/models/announcement.dart';
-
 import 'announcement_detail.dart';
 
 class AnnounceItem extends StatelessWidget {
@@ -47,7 +46,7 @@ class AnnounceItem extends StatelessWidget {
                 height: 12,
               ),
               Text(
-                announcement.content.substring(0, 50),
+                announcement.content.substring(0, 20),
                 style: const TextStyle(
                   color: Colors.white,
                 ),
