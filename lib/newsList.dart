@@ -17,6 +17,6 @@ List<Announcement> myAnnounceList = [
   ),
 ];
 
-// haber foto düzelt,düzenleme, silme
+// haber  düzenleme, silme, isAdmin
 // duyuru, duyuru foto kaldır,
 

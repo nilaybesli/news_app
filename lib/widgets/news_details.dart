@@ -1,37 +1,96 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/admin/news_methods.dart';
 import 'package:news_app/models/news.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-import '../admin/news_methods.dart';
-
-class NewsDetails extends StatelessWidget {
+class NewsDetails extends StatefulWidget {
   final News news;
 
   const NewsDetails({Key? key, required this.news}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    void deleteNews() {
-      NewsMethods().deleteNews(news.id);
+  State<NewsDetails> createState() => _NewsDetailsState();
+}
+
+class _NewsDetailsState extends State<NewsDetails> {
+  void deleteNews(BuildContext context, String newsId) async {
+    try {
+      await NewsMethods().deleteNews(newsId);
       Navigator.of(context).pop();
+    } catch (error) {
+      print('Error deleting news: $error');
     }
+  }
 
-    void editNews() {
-
-      NewsMethods().updateNews(news.id, news.title, news.content);
+  void editNews(
+      BuildContext context, String newTitle, String newContent) async {
+    try {
+      await NewsMethods().updateNews(widget.news.id, newTitle, newContent);
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+    } catch (error) {
+      print('Error updating news: $error');
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    TextEditingController titleController =
+        TextEditingController(text: widget.news.title);
+    TextEditingController contentController =
+        TextEditingController(text: widget.news.content);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(news.title),
+        title: Text(widget.news.title),
         actions: [
           IconButton(
-            icon: const Icon(Icons.edit), // Add edit icon
-            onPressed: editNews, // Call edit function
+            icon: const Icon(Icons.edit),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text('Edit the News'),
+                    content: Expanded(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          TextField(
+                            controller: titleController,
+                            decoration:
+                                const InputDecoration(labelText: 'Title'),
+                          ),
+                          TextField(
+                            controller: contentController,
+                            decoration:
+                                const InputDecoration(labelText: 'Content'),
+                            maxLines: 5,
+                          ),
+                        ],
+                      ),
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text('Cancel'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          editNews(context, titleController.text,
+                              contentController.text);
+                        },
+                        child: const Text('Save'),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
           ),
           IconButton(
             icon: const Icon(Icons.delete),
-            onPressed: deleteNews,
+            onPressed: () => deleteNews(context, widget.news.id),
           ),
         ],
       ),
@@ -40,10 +99,10 @@ class NewsDetails extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Hero(
-              tag: news.id,
+              tag: widget.news.id,
               child: FadeInImage(
                 placeholder: MemoryImage(kTransparentImage),
-                image: NetworkImage(news.imageUrl),
+                image: NetworkImage(widget.news.imageUrl),
                 fit: BoxFit.cover,
                 height: 200,
               ),
@@ -54,7 +113,7 @@ class NewsDetails extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    news.title,
+                    widget.news.title,
                     style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -62,7 +121,7 @@ class NewsDetails extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    news.content,
+                    widget.news.content,
                     style: const TextStyle(fontSize: 16),
                   ),
                 ],

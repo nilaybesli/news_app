@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:news_app/admin/news_admin_screen.dart';
+import 'package:news_app/resources/firestore_methods.dart';
+import 'package:news_app/screens/home_screen.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  Firebase.initializeApp(
+  await Firebase.initializeApp(
     options: const FirebaseOptions(
       apiKey: "AIzaSyDyNz03DjBQg17Ty-xiuGcJSl94pt7TjvM",
       appId: "1:500230385651:web:02137867332bc081f72c86",
@@ -34,8 +36,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: const NewsAdminScreen(),
-      //HomeScreen(news: FirestoreMethods().getNewsFromFirestore()),
+      home: //const NewsAdminScreen(),
+      NewsAdminScreen(),
     );
   }
 }

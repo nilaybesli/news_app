@@ -5,7 +5,6 @@ import 'package:news_app/resources/firestore_methods.dart';
 import 'package:news_app/screens/news_screen.dart';
 import 'package:news_app/widgets/image_input.dart';
 
-
 class NewsAdminScreen extends StatefulWidget {
   const NewsAdminScreen({
     Key? key,
@@ -32,22 +31,16 @@ class _NewsAdminScreenState extends State<NewsAdminScreen> {
       _titleController.text,
       _contentController.text,
       _categoryController.text,
-      _imageURL!, // _selectedImage yerine _imageURL'yi geçirin
+      _imageURL!,
     );
     _titleController.clear();
     _contentController.clear();
     _categoryController.clear();
     setState(() {
-      // _selectedImage = null;
-      _imageURL =
-          null; // _selectedImage yerine _imageURL'yi null olarak ayarlayın
+      _imageURL = null;
     });
     Navigator.of(context).pop();
   }
-
-  void _updateNews() {}
-
-  void _deleteNews() {}
 
   @override
   void dispose() {

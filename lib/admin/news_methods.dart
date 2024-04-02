@@ -2,15 +2,20 @@ import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:uuid/uuid.dart';
 
 class NewsMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
+  final Uuid _uuid = Uuid();
 
   Future<void> addNews(
       String title, String content, String category, String imageURL) async {
     try {
-      await _firestore.collection('news').add({
+      String newsId = _uuid.v4();
+
+      await _firestore.collection('news').doc(newsId).set({
+        'id': newsId,
         'title': title,
         'category': category,
         'content': content,
