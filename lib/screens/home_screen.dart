@@ -45,7 +45,6 @@ class _HomeScreenState extends State<HomeScreen> {
           : AnnouncementScreen(
               announcement: FirestoreMethods().getAnnounceFromFirestore(),
             ),
-
       bottomNavigationBar: BottomNavigationBar(
         onTap: _selectPage,
         currentIndex: _selectedPageIndex,

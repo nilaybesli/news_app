@@ -28,9 +28,10 @@ class _AnnouncementDetailScreenState extends State<AnnouncementDetailScreen> {
   void editAnnouncement(
       BuildContext context, String newTitle, String newContent) async {
     try {
-      await Provider.of<AnnounceProvider>(context, listen: false).updateAnnounce(widget.announcement.id, newTitle, newContent);
+      await Provider.of<AnnounceProvider>(context, listen: false)
+          .updateAnnounce(widget.announcement.id, newTitle, newContent);
       Navigator.of(context).pop();
-     } catch (error) {
+    } catch (error) {
       print('Error updating announcement: $error');
     }
   }
@@ -79,10 +80,8 @@ class _AnnouncementDetailScreenState extends State<AnnouncementDetailScreen> {
                       ),
                       TextButton(
                         onPressed: () {
-
                           editAnnouncement(context, titleController.text,
                               contentController.text);
-
                         },
                         child: const Text('Save'),
                       ),

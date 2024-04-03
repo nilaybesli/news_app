@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/announce_provider.dart';
-import '../resources/firestore_methods.dart';
 import '../screens/announcement_screen.dart';
 import 'announce_methods.dart';
 
@@ -18,8 +17,11 @@ class _AnnounceAdminScreen extends State<AnnounceAdminScreen> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _contentController = TextEditingController();
 
-  void _addNews() {
+  void _addAnnounce() {
     if (_titleController.text.isEmpty || _contentController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Title and content are required')),
+      );
       return;
     }
     AnnounceMethods().addAnnounce(
@@ -67,37 +69,39 @@ class _AnnounceAdminScreen extends State<AnnounceAdminScreen> {
           height: double.infinity,
           child: Padding(
             padding: const EdgeInsets.all(18),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextField(
-                  controller: _titleController,
-                  decoration: const InputDecoration(labelText: 'Title'),
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: _contentController,
-                  decoration: const InputDecoration(labelText: 'Content'),
-                  maxLines: 5,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    ElevatedButton(
-                      child: const Text('Cancel'),
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    ElevatedButton(
-                      onPressed: _addNews,
-                      child: const Text('Save'),
-                    ),
-                  ],
-                ),
-              ],
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextField(
+                    controller: _titleController,
+                    decoration: const InputDecoration(labelText: 'Title'),
+                  ),
+                  const SizedBox(height: 16),
+                  TextField(
+                    controller: _contentController,
+                    decoration: const InputDecoration(labelText: 'Content'),
+                    maxLines: 5,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      ElevatedButton(
+                        child: const Text('Cancel'),
+                        onPressed: () => Navigator.pop(context),
+                      ),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      ElevatedButton(
+                        onPressed: _addAnnounce,
+                        child: const Text('Save'),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         );

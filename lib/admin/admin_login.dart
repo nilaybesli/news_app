@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/admin/announce_admin_screen.dart';
 import 'package:news_app/admin/news_admin_screen.dart';
-
 import '../resources/auth_methods.dart';
 
 class AdminLoginScreen extends StatefulWidget {
-  const AdminLoginScreen({super.key});
+  const AdminLoginScreen({
+    super.key,
+  });
 
   @override
   State<AdminLoginScreen> createState() => _AdminLoginScreenState();
@@ -22,15 +24,69 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
   }
 
   void loginAdmin() async {
-    String res = await AuthMethods().adminLogin(
-        email: _emailController.text, password: _passwordController.text);
-    if (res == "success") {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => const NewsAdminScreen(),
-        ),
+    String email = _emailController.text;
+    String password = _passwordController.text;
+
+    if (email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Email and password are required')),
       );
-    } else {}
+      return;
+    }
+
+    String res =
+        await AuthMethods().adminLogin(email: email, password: password);
+    if (res == "success") {
+      _showOptions();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Invalid email or password')),
+      );
+    }
+  }
+
+  void _showOptions() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Select an option'),
+          content: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) => const NewsAdminScreen(),
+                      ),
+                    );
+                  },
+                  child: const Text('News Management'),
+                ),
+              ),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) => const AnnounceAdminScreen(),
+                      ),
+                    );
+                  },
+                  child: const Text('Announce Management'),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   @override

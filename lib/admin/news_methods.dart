@@ -36,7 +36,6 @@ class NewsMethods {
 
       String imageURL = await snapshot.ref.getDownloadURL();
       return imageURL;
-
     } catch (error) {
       print('Error: $error');
       rethrow;

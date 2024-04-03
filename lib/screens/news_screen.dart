@@ -5,8 +5,7 @@ import 'package:provider/provider.dart';
 import '../providers/news_provider.dart';
 
 class NewsScreen extends StatelessWidget {
-  NewsScreen({super.key, required this.news});
-
+  const NewsScreen({super.key, required this.news});
 
   final Stream<List<News>> news;
 
@@ -26,19 +25,19 @@ class NewsScreen extends StatelessWidget {
         final newsList = snapshot.data ?? [];
         return newsList.isEmpty
             ? Center(
-          child: Text(
-            " Nothing here!",
-            style: Theme.of(context).textTheme.headlineLarge!.copyWith(
-              color: Theme.of(context).colorScheme.onBackground,
-            ),
-          ),
-        )
+                child: Text(
+                  " Nothing here!",
+                  style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                        color: Theme.of(context).colorScheme.onBackground,
+                      ),
+                ),
+              )
             : ListView.builder(
-          itemCount: newsList.length,
-          itemBuilder: (context, index) {
-            return NewsItem(news: newsList[index]);
-          },
-        );
+                itemCount: newsList.length,
+                itemBuilder: (context, index) {
+                  return NewsItem(news: newsList[index]);
+                },
+              );
       },
     );
   }

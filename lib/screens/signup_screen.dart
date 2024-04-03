@@ -31,11 +31,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
       username: _usernameController.text,
     );
 
-    if (res != 'success') {
-      // showSnackBar(res, context);
-    } else {
+    if (res == 'success') {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => HomeScreen(news: FirestoreMethods().getNewsFromFirestore())),
+        MaterialPageRoute(
+          builder: (context) => HomeScreen(
+            news: FirestoreMethods().getNewsFromFirestore(),
+          ),
+        ),
       );
     }
   }

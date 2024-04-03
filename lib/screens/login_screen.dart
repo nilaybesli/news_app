@@ -28,10 +28,9 @@ class _LoginScreenState extends State<LoginScreen> {
         email: _emailController.text, password: _passwordController.text);
     if (res == "success") {
       Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => HomeScreen(news: FirestoreMethods().getNewsFromFirestore()),
+        builder: (context) =>
+            HomeScreen(news: FirestoreMethods().getNewsFromFirestore()),
       ));
-    } else {
-      // showSnackBar(res, context);
     }
   }
 

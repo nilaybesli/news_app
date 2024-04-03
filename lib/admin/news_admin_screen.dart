@@ -1,7 +1,6 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:news_app/admin/news_methods.dart';
-import 'package:news_app/resources/firestore_methods.dart';
 import 'package:news_app/screens/news_screen.dart';
 import 'package:news_app/widgets/image_input.dart';
 import 'package:provider/provider.dart';
@@ -28,6 +27,11 @@ class _NewsAdminScreenState extends State<NewsAdminScreen> {
         _categoryController.text.isEmpty ||
         _contentController.text.isEmpty ||
         _imageURL == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please fill in all fields and select an image.'),
+        ),
+      );
       return;
     }
     NewsMethods().addNews(
@@ -82,55 +86,57 @@ class _NewsAdminScreenState extends State<NewsAdminScreen> {
           height: double.infinity,
           child: Padding(
             padding: const EdgeInsets.all(18),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ImageInput(
-                  onSelectImage: (imageFile) async {
-                    final bytes = await imageFile.readAsBytes();
-                    final imageURL = await NewsMethods()
-                        .uploadImage(Uint8List.fromList(bytes));
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ImageInput(
+                    onSelectImage: (imageFile) async {
+                      final bytes = await imageFile.readAsBytes();
+                      final imageURL = await NewsMethods()
+                          .uploadImage(Uint8List.fromList(bytes));
 
-                    setState(() {
-                      _imageURL = imageURL;
-                    });
-                  },
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                TextField(
-                  controller: _titleController,
-                  decoration: const InputDecoration(labelText: 'Title'),
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: _categoryController,
-                  decoration: const InputDecoration(labelText: 'Category'),
-                ),
-                TextField(
-                  controller: _contentController,
-                  decoration: const InputDecoration(labelText: 'Content'),
-                  maxLines: 5,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    ElevatedButton(
-                      child: const Text('Cancel'),
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    ElevatedButton(
-                      onPressed: _addNews,
-                      child: const Text('Save'),
-                    ),
-                  ],
-                ),
-              ],
+                      setState(() {
+                        _imageURL = imageURL;
+                      });
+                    },
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  TextField(
+                    controller: _titleController,
+                    decoration: const InputDecoration(labelText: 'Title'),
+                  ),
+                  const SizedBox(height: 10),
+                  TextField(
+                    controller: _categoryController,
+                    decoration: const InputDecoration(labelText: 'Category'),
+                  ),
+                  TextField(
+                    controller: _contentController,
+                    decoration: const InputDecoration(labelText: 'Content'),
+                    maxLines: 5,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      ElevatedButton(
+                        child: const Text('Cancel'),
+                        onPressed: () => Navigator.pop(context),
+                      ),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      ElevatedButton(
+                        onPressed: _addNews,
+                        child: const Text('Save'),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         );

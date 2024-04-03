@@ -10,7 +10,7 @@ class AnnouncementScreen extends StatelessWidget {
     required this.announcement,
   }) : super(key: key);
 
-   final Stream<List<Announcement>> announcement;
+  final Stream<List<Announcement>> announcement;
 
   @override
   Widget build(BuildContext context) {

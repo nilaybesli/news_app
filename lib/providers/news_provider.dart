@@ -15,7 +15,9 @@ class NewsProvider extends ChangeNotifier {
   NewsProvider() {
     _newsStream = _firestoreMethods.getNewsFromFirestore();
   }
-  Future<void> updateNews(String newsId, String newTitle, String newContent) async {
+
+  Future<void> updateNews(
+      String newsId, String newTitle, String newContent) async {
     try {
       await _newsMethods.updateNews(newsId, newTitle, newContent);
       notifyListeners();

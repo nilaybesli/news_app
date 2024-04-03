@@ -15,7 +15,7 @@ class AnnounceMethods {
         'content': content,
       });
     } catch (error) {
-      print('Error adding news: $error');
+      print('Error adding announce: $error');
       rethrow;
     }
   }

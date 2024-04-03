@@ -46,7 +46,7 @@ class AnnounceItem extends StatelessWidget {
                 height: 12,
               ),
               Text(
-                announcement.content.substring(0, 20),
+                announcement.content.substring(0, 40),
                 style: const TextStyle(
                   color: Colors.white,
                 ),
