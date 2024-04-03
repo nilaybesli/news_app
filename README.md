@@ -2,44 +2,44 @@
 
 A news and announcements app using Provider with Flutter and Firebase.
 
-![Ekran görüntüsü 2024-04-03 050339](https://github.com/nilaybesli/news_app/assets/64665975/9a01ffb4-1046-4ef5-a53a-03e2055b46c5)
+ ![1](https://github.com/nilaybesli/news_app/assets/64665975/12f601a8-740e-4938-8625-aa4ba2751d94)
+
+ 
+![2](https://github.com/nilaybesli/news_app/assets/64665975/f07c5726-9e5e-481d-8aa7-790da23fbca7)
 
 
-![Ekran görüntüsü 2024-04-03 050334](https://github.com/nilaybesli/news_app/assets/64665975/c2cb48e6-7a94-4276-84d5-980a6b91a0cc)
+![3](https://github.com/nilaybesli/news_app/assets/64665975/36e137f1-b4b6-4662-8c3e-4d08580a4d4c)
 
 
-![Ekran görüntüsü 2024-04-03 050306](https://github.com/nilaybesli/news_app/assets/64665975/0a83364d-71fe-42aa-afee-e94d9f6f155f)
+![4](https://github.com/nilaybesli/news_app/assets/64665975/d924c0cb-9600-4ac1-a0f4-d945ecff9a55)
 
 
-![Ekran görüntüsü 2024-04-03 050302](https://github.com/nilaybesli/news_app/assets/64665975/02469831-03fa-4e97-8681-7dbb4f7d17d9)
+![5](https://github.com/nilaybesli/news_app/assets/64665975/a326b030-66fb-4511-aa74-4127532452c3)
 
 
-![Ekran görüntüsü 2024-04-03 044622](https://github.com/nilaybesli/news_app/assets/64665975/50ef5855-1e58-4d03-afcd-4293e7b26921)
+![6](https://github.com/nilaybesli/news_app/assets/64665975/55f118fc-873c-48a5-bbd0-dc1792267fa2)
 
 
-![Ekran görüntüsü 2024-04-03 043925](https://github.com/nilaybesli/news_app/assets/64665975/cf4f4e18-d9ca-4d8e-b80a-a80abf5aa796)
+![7](https://github.com/nilaybesli/news_app/assets/64665975/ac4786f2-7a14-44ab-91b5-84d97543ac77)
 
 
-![Ekran görüntüsü 2024-04-03 043917](https://github.com/nilaybesli/news_app/assets/64665975/ee842c71-13fd-4d12-b196-f9b8f6ea46ae)
+![8](https://github.com/nilaybesli/news_app/assets/64665975/106d1f64-c515-4e18-b0e5-2bc9e4ab93ce)
 
 
-![Ekran görüntüsü 2024-04-03 043905](https://github.com/nilaybesli/news_app/assets/64665975/1db50114-6b20-455f-9590-3406de988d0c)
+![9](https://github.com/nilaybesli/news_app/assets/64665975/f5d55f07-2d27-4348-b3c9-e904190de659)
 
 
-![Ekran görüntüsü 2024-04-03 042042](https://github.com/nilaybesli/news_app/assets/64665975/5bc994a7-6a8c-4f8c-a8d6-43f59f08e0c4)
+![10](https://github.com/nilaybesli/news_app/assets/64665975/ec564663-ddc5-4e72-bd64-b8de5a1ba8f7)
 
 
-![Ekran görüntüsü 2024-04-03 041921](https://github.com/nilaybesli/news_app/assets/64665975/25cfbca8-1a29-45b0-a113-b91fb1c9ad30)
+![11](https://github.com/nilaybesli/news_app/assets/64665975/31d2215b-3e3d-4f14-83be-e8e0607f68b1)
 
 
-![Ekran görüntüsü 2024-04-03 041511](https://github.com/nilaybesli/news_app/assets/64665975/0e8196af-27f8-4c49-85b5-ff97b7a9a891)
+![12](https://github.com/nilaybesli/news_app/assets/64665975/b2a76631-0594-401e-a1c6-d3be6f4f3a9b)
 
 
-![Ekran görüntüsü 2024-04-03 050135](https://github.com/nilaybesli/news_app/assets/64665975/342be28b-f652-4ff0-a365-8b41ca2af791)
+![13](https://github.com/nilaybesli/news_app/assets/64665975/c14f9149-7e69-43cd-b59b-728382691a9b)
 
 
-![Ekran görüntüsü 2024-04-03 050117](https://github.com/nilaybesli/news_app/assets/64665975/c5dab22a-4d4f-4db1-9292-7c81f9b59e86)
-
-
-![Ekran görüntüsü 2024-04-03 045302](https://github.com/nilaybesli/news_app/assets/64665975/6bfbb0be-ef20-48be-898d-4b989bb2824a)
+![14](https://github.com/nilaybesli/news_app/assets/64665975/2bad655a-6f63-4488-8ab1-d85a5919d7d1)
 
